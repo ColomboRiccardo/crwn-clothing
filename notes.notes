@@ -1,0 +1,12 @@
+This is just some notes that I'm going to use instead of the usual note with pen and paper. 
+It just seem more cumbersome to write down stuff instead of just doing comments on code.
+
+[2020-10-04]
+Notes: Started taking notes with the *NOTES* extension
+Ideas: This *NOTES* extension is ! pretty cool !
+TODO:
+Activity Log: Going Through the React course from Neagoie.
+
+= Adding Multiple Items To Cart =
+
+We add a utility function with "cart.utils.js",  this way the "cart.reducer.js" can be cleaner, because we just pass it a function, referenced in another part of the code.
