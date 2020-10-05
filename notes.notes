@@ -10,3 +10,85 @@ Activity Log: Going Through the React course from Neagoie.
 = Adding Multiple Items To Cart =
 
 We add a utility function with "cart.utils.js",  this way the "cart.reducer.js" can be cleaner, because we just pass it a function, referenced in another part of the code.
+The function sees if there is already an item with the same id in the cart state, if so it increases it's quantity, otherwise it returns a new state with the item and quantity 1.
+
+= find =
+
+[js]
+const myArray = [1,2,3,4,5]
+myArray.find(el => el === 5) //returns 5
+myArray.find(el => el > 3) // returns 4, not [4,5]
+[end]
+
+find() stops when it finds somehing that makes its expression true and returns it. It won't keep going, it returns just one value, with its reference. 
+
+[[2020-10-05]
+Notes: Ok, so today we do more React course
+Ideas:
+TODO:
+Activity Log:
+]
+
+= Cart Item Component =
+
+We add "cart-item" to the "cart-dropdown".
+
+= reduce =
+
+reduce() is more complicated than the other methods.
+
+[js]
+const array=[1,2,3,4,5];
+//i want to add all of these values to one value, or i want to retain in one value the result of operations i do on various elements of the array.
+array.reduce((accumulator,currentElement) => (accumulator+currentElement), 0)
+// returns 15
+[end]
+
+0 is the starting value of accumulator, then accumulator goes through the array and sums all elements in itself. At the end, accumulator is returned
+
+= Selectors in Redux = 
+
+We need to make the number go higher inside the cart icon. 
+We can just probably use "mapStateToProps" to destructure quantity of items off of the state and put it into the "cart-icon" component.
+
+The problem with this approach, is that whenever the state changes, all "mapStateToProps" are called, and the state changes, rerendering some components. 
+This means that when the user logs in, the state gets updated, the cart icon gets a new state, but it was not necessary at all. 
+This is because our reduce keeps giving value to "itemCount", therefore the state is different, therefore it renders the component again.
+This is because remember, even if the value of state is the same, you need to give a different object for React to render a component. reduce() doesn't know this, gets the same values and treats them as different, rerendering his part of state, like something has been updated.
+
+It's clearly not good for performance. 
+
+What we want to do, is somehow to cache the value that the reduce() method gives us, so that it doesn't rerenders for nothing.
+This is called "memoization", aka the "caching of the selector's value" 
+We can achieve this with "reselect"
+
+= Memoization =
+
+"memoization" is a specific form of "caching".
+[js]
+function addTo80(n){
+    return n+80;
+}
+attTo80(5) //returns 85.
+[end]
+
+If i run this function again and again, i can use caching to cache the values and effects from my function, so i don't use computational power to do the same operation again and again.
+
+[js]
+let cache = {};
+function memoizedAddTo80(n){
+    if (n in cache){
+        return cache[n]
+    }else{
+        cache[n]= n+80
+        return cache[n]
+    }
+}
+
+memoizedAddTo80(5) //the first time cache is empty, so nothing, calculates and returns 85
+memoizedAddTo80(5) // this time 5 is in the cache, so it doesn't calculate, it returns what's there.
+[end]
+
+So as you can see it saves us computational power.
+
+Memoization is a particular form of caching that caches the return value of a function based on its parameters, if the parameter doesn't change, it returns the memoized value.
