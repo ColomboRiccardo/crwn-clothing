@@ -22,12 +22,12 @@ myArray.find(el => el > 3) // returns 4, not [4,5]
 
 find() stops when it finds somehing that makes its expression true and returns it. It won't keep going, it returns just one value, with its reference. 
 
-[[2020-10-05]
+[2020-10-05]
 Notes: Ok, so today we do more React course
 Ideas:
 TODO:
 Activity Log:
-]
+
 
 = Cart Item Component =
 
@@ -92,3 +92,57 @@ memoizedAddTo80(5) // this time 5 is in the cache, so it doesn't calculate, it r
 So as you can see it saves us computational power.
 
 Memoization is a particular form of caching that caches the return value of a function based on its parameters, if the parameter doesn't change, it returns the memoized value.
+
+= Reselect Library =
+
+To add "reselect" we need to change the folder structure a little bit.
+For example, the cartItem count can be a reusable selector, so we put it in a related folder, so we can just reuse it when necessary.
+
+There are 2 types of selectors we can write, the first type is an "input selector", that doesn't use "createSelector", the second type is an "output selector", that does use "input selectors" and "createSelector to build themselves.
+
+[js]
+const selectCart = state => state.cart;
+
+export const selectCartItems = createSelector(
+    [selectCart], //first argument is input selectors
+    (cart) =>//what we want out of the selector, if the array in the first parameter has multiple selectors, we put it in order
+    cart.cartItems
+)
+[end]
+
+It's a function that takes the whole state and returns only part of it, usually only one layer deep. In this case we just want the cart part of the state, we don't care for the user part.
+This is now a memoized selector, because we used createSelector().
+Input selectors are selectors that just return a piece of state. 
+
+C:\Users\Chunky Timmy\Documents\Programming\Neagoie stuff\reactCourse\crwn-clothing\src\redux\cart\cart.selectors.js
+
+Go see the comment there to try and get this stuff. 
+We could do the same stuff for other components, like the "cart-dropdown", so it doesn't get rerendered when we log in or out for nothing.
+
+We actually didn't need to do that for the Item Count, because redux's mapStateToProps does a shallow equality check and sees that the number is the same so it doesn't rerender.
+
+[2020-10-06]
+Notes: Woke up at 5AM. 
+Ideas:
+TODO: Try not to die.
+Activity Log:
+
+= User Selectors =
+
+If you have a lot of selectors, like
+
+[js]
+const mapStateToProps = (state) => ({
+	currentUser: selectCurrentUser(state),
+	hidden: selectCartHidden(state)
+});
+[end]
+
+You can instead use "createStructuredSelector", and it will handle it itself
+
+[js]
+const mapStateToProps = createStructuredSelector ({
+	currentUser: selectCurrentUser,
+	hidden: selectCartHidden
+});
+[end]
