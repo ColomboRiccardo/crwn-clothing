@@ -182,3 +182,6 @@ If we don't supply "mapDispatchToProps" our connect() passes "dispatch" as a pro
 
 We're going to pass in the whole item instead of destructuring, because we know we want to increase or decrease the quantities of it or remove it, because with the action "addItem" we need to pass a whole item as prop.
 
+= Remove Items From Cart =
+
+We add a filter action so we can remove items from cart.
