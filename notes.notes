@@ -146,3 +146,39 @@ const mapStateToProps = createStructuredSelector ({
 	hidden: selectCartHidden
 });
 [end]
+
+= Checkout Component = 
+
+We render "Yout cart is empty" if you don't have anything in the cart.
+
+We add a route to the new "checkout" page, we then use withRouter on the export of cart-dropdown like so
+
+[js]
+export default withRouter(connect(mapStateToProps)(CartDropdown));
+[end]
+
+This higher component methods evaluate from within, so connect evaluates first and returns a modified component, which then withRouter takes and it gives it access to history.push.
+
+we then program the checkout page.
+
+= Extensible Code =
+
+What we are trying to do is to redo and redo the same code over and over, the teacher makes components usually very small, so it can be reused.
+In general when coding, you need to try and make it extensible, so you acutally are able to reuse components.
+You want very simple code, not very difficult code.
+
+[[2020-10-07]
+Notes:
+Ideas:
+TODO:
+Activity Log:
+]
+
+= Dispatch Action Shorthand =
+
+If we don't supply "mapDispatchToProps" our connect() passes "dispatch" as a prop to our component.
+
+= Checkout Item Component = 
+
+We're going to pass in the whole item instead of destructuring, because we know we want to increase or decrease the quantities of it or remove it, because with the action "addItem" we need to pass a whole item as prop.
+
